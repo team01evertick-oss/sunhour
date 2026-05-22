@@ -130,7 +130,7 @@
                                                 </a>
                                             </li>
                                             <li class="hover:border-b-4 border-[#3b83db] py-4">
-                                                <a href="http://127.0.0.1:8000/toto/bath-tub/category"
+                                                <a href="https://sunhourgroup.com.kh/toto/bath-tub/category"
                                                     class="text-black text-[14px] font-light {{ session()->get('locale') === 'en' ? '  lg:text-[14x] xl:text-[18px]' : 'lg:text-[12px] xl:text-[14px]' }}">
                                                     @lang('message.Bathtubs')
                                                 </a>
@@ -287,17 +287,25 @@
                         <a href="{{ route('career.index', ['locale' => $locale]) }}"
                             class="text-white text-[14px] font-light {{ session()->get('locale') === 'en' ? '  lg:text-[14px] xl:text-[18px]' : 'lg:text-[12px] xl:text-[14px]' }}">@lang('message.career')</a>
                     </li>
-                   
-                    {{-- <li
-                        class="{{ Route::is('faqs.index') ? 'border-b-4' : '' }}
-                    hover:border-b-4 border-[#3b83db] py-4 transition-all duration-300 ease-in-out">
-                        <a href="{{ route('faqs', ['locale' => $locale]) }}"
+
+                    <li
+                        class="{{ Route::is('event.index') ? 'border-b-4' : '' }}
+                        hover:border-b-4 border-[#3b83db] py-4 transition-all duration-300 ease-in-out">
+
+                        <a href="{{ route('event.index', ['locale' => $locale]) }}"
                             class="text-white text-[14px] font-light
-                        {{ session()->get('locale') === 'en' ? '  lg:text-[14px] xl:text-[18px]' : 'lg:text-[12px] xl:text-[14px]' }}
-                        ">
-                        {{ app()->getLocale() === 'en' ? 'FAQs' : (app()->getLocale() === 'km' ? 'សំណួរដែលសួរញឹកញាប់' : 'FAQs') }}
-                    </a>
-                    </li> --}}
+                            {{ session()->get('locale') === 'en'
+                                ? 'lg:text-[14px] xl:text-[18px]'
+                                : 'lg:text-[12px] xl:text-[14px]' }}">
+
+                            {{ app()->getLocale() === 'en'
+                                ? 'Event'
+                                : (app()->getLocale() === 'km'
+                                    ? 'ព្រឹត្តិការណ៍'
+                                    : 'Event') }}
+                        </a>
+                    </li>
+
                     <li
                         class="{{ Route::is('articles') ? 'border-b-4' : '' }}
                     hover:border-b-4 border-[#3b83db] py-4 transition-all duration-300 ease-in-out">

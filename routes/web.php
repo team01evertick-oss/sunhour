@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FunctionController;
+use App\Http\Controllers\Admin\EvenController;
 use App\Http\Controllers\ArticleBackendController;
 use App\Http\Controllers\AwardController;
 use App\Http\Controllers\BrandController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Frontend\AboutUsController;
 use App\Http\Controllers\Frontend\BrandsController;
 use App\Http\Controllers\Frontend\CareerController;
 use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\EventController;
 use App\Http\Controllers\Frontend\PartnershipController;
 use App\Http\Controllers\LocalLangController;
 use App\Http\Controllers\MediaController;
@@ -55,6 +57,7 @@ Route::group([
         Route::get('/partnerships', [PartnershipController::class, 'index'])->name('partnerships.index');
         Route::get('/career', [CareerController::class, 'index'])->name('career.index');
         Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+        Route::get('/events', [EventController::class, 'index'])->name('eventPage.index');
         Route::get('/faqs_f', [FAQsFController::class, 'faqs'])->name('faqs');
         Route::get('/articles', [ArticleController::class, 'article'])->name('articles');
         Route::get('/articles/{slug}', [ArticleController::class, 'articleShow'])->name('articles.show');
@@ -66,6 +69,17 @@ Route::get('/{brands}/{products}/category', [BrandsController::class, 'category'
 Route::get('/{brands}/{products}/model', [BrandsController::class, 'model'])->name('brands-client.model');
 Route::get('/{brands}/{products}/{category}/model', [BrandsController::class, 'model_category'])->name('brands-client.model_category');
 Route::get('/{brands}/{products}/{models}/details', [BrandsController::class, 'model_details'])->name('brands-client.model-details');
+
+// -------- EVENT ----------------
+
+// Backend 
+
+
+
+// frontend 
+Route::get('/events/{slug}', [EventController::class, 'show'])
+    ->name('event.show');
+
 
 
 // Submit form
@@ -111,8 +125,11 @@ Route::group(['middleware' => 'auth.jwt', 'prefix' => 'admin'], function () {
     Route::resource('{brands}/{products}/{models}/downloads', FileDownloadController::class);
     // This single line defines: index, store, show, update, and destroy (DELETE)
     Route::resource('/faqs', FAQsController::class);
-   // This generates: GET /admin/article/{article}/edit which is what your fetch is hitting.
+   // This generates: GET /admin/article/{article}/edit which is what your fetch is hitting. 
     Route::resource('/article', ArticleBackendController::class);
+
+    // event
+    Route::resource('/event', EvenController::class);
 });
 
 Route::post('/send-mail', [MailController::class, 'sendMail'])->name('send.mail');

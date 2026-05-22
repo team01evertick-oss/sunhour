@@ -2,7 +2,7 @@
 
 namespace Artesaos\SEOTools\Facades;
 
-use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Facade; 
 
 /**
  * SEOTools is a facade for the `SEOTools` implementation access.

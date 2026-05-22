@@ -13,52 +13,61 @@ return [
             'title'        => 'Sunhour Group Co., Ltd', // set false to total remove
             'titleBefore'  => false, // "Page Title | Sunhour Group Co., Ltd"
             'description'  => 'Explore premium Water Purifier, Water Purified ,Water Pump, Water Filter Cambodia, Tiles Cambodia, Building Material, Accessories Cambodia,Toto bathroom, Water Filter Cambodia, Heat Pump, Toto faucet, Water Dispenser Cambodia, Water Machine Cambodia,Toto faucet,Heat Pump,Water Dispenser Cambodia,Water Filter Cambodia, Water Heating System, ការ៉ូ, ក្បាលរូមីណេ, ម៉ូទ័របូមទឹក and more in Cambodia with Sunhour Group Co., Ltd.',
-            'separator'    => '',
-            'keywords'     => [
-                'Water Purifier',
-                'Water Purified',
-                'Water Pump',
-                'Water Dispenser Cambodia',
-                'Water Transfer',
-                'PurePro Drinking Water Systems',
-                'PurePro',
-                'Toilet',
-                'Smart Toilet',
-                'Building Material Cambodia',
-                'Building Equipment Cambodia',
-                'Filter',
-                'Washlet',
-                'Fire System',
-                'Toto Faucet',
-                'Heat Pump Cambodia',
-                'Tiles Cambodia',
-                'Tiles',
-                'Home Shower',
-                'Solar Water Cambodia',
-                'Bath Tub Cambodia',
-                'Storage Water Heater',
-                'Lavatory Cambodia',
-                'Lavatory',
-                'Console Cambodia',
-                'Console',
-                'Accessories Cambodia',
-                'Accessory Cambodia',
-                'Faucet Cambodia',
-                'Industrial Water Treatment System',
-                'Shower and Accessories Cambodia',
-                'Home Drinking Water System',
-                'Water System Cambodia',
-                'Water Machine Cambodia',
-                'Water Heating System',
-                'Handrail Cambodia',
-                'Water Filter Cambodia',
-                'Water Filter',
-                'Toto Cambodia',
-                'Toto Bathtub',
-                'Toto Brand',
-                'Toto Faucet',
-            ],
-            'canonical'    => null, // Uses current URL
+            'separator'    => ' | ', // Result: Water Purifier Cambodia | Sunhour Group Co., Ltd
+        'keywords' => [
+
+            // Water Systems
+            'Water Purifier',
+            'Water Purifier Cambodia',
+            'Water Purification',
+            'Water Filter',
+            'Water Filter Cambodia',
+            'Water Dispenser',
+            'Water Dispenser Cambodia',
+            'Water Heater',
+            'Water Heater Cambodia',
+            'Water Heating System',
+            'Storage Water Heater',
+            'Water Pump',
+            'Water Pump Cambodia',
+            'Water Transfer',
+            'Water System Cambodia',
+            'Heat Pump',
+            'Heat Pump Cambodia',
+
+            // Brands
+            'PurePro',
+            'PurePro Cambodia',
+            'TOTO Cambodia',
+
+            // Bathroom
+            'TOTO Bathroom',
+            'TOTO Bathroom Cambodia',
+            'TOTO Faucet',
+            'TOTO Faucet Cambodia',
+            'TOTO Bathtub',
+            'Bathtub Cambodia',
+            'Home Shower',
+            'Home Shower Cambodia',
+            'Bathroom Accessories Cambodia',
+
+            // Building Materials
+            'Tiles Cambodia',
+            'Building Material Cambodia',
+
+            // Khmer Keywords
+            'សម្ភារក្នុងបន្ទប់ទឹក',
+            'គ្រឿងប្រើប្រាស់ក្នុងបន្ទប់ទឹក',
+            'ម៉ាស៊ីនបូមទឹក',
+            'ម៉ូទ័របូមទឹក',
+            'ម៉ាស៊ីនទឹកក្តៅទឹកត្រជាក់',
+            'បង្គន់អនាម័យ',
+            'ការ៉ូ',
+            'ក្បាលរូមីណេ',
+
+        ],
+            // 'canonical'    => null, // Uses current URL
+            'canonical' => env('APP_URL'),
             'robots'       => 'index, follow', // Allows indexing by search engines
         ],
 
@@ -82,7 +91,7 @@ return [
             'type'        => 'website',
             'site_name'   => 'Sunhour Group Co., Ltd',
             'images'      => [
-                'https://www.toto.com/en/neorestcollections/images/p_mainv_sp.jpg', // ✅ Update with your actual OG image path
+                'url'    => 'https://sunhourgroup.com.kh/?en/neorestcollections/images/p_mainv_sp.jpg', // ✅ Update with your actual OG image path
             ],
         ],
     ],
@@ -101,7 +110,7 @@ return [
             'url'         => null,
             'type'        => 'WebPage',
             'images'      => [
-                'https://www.toto.com/en/neorestcollections/images/p_mainv_sp.jpg',
+               'url'    => 'https://sunhourgroup.com.kh/?en/neorestcollections/images/p_mainv_sp.jpg', // ✅ Update with your actual OG image path
             ],
         ],
     ],
