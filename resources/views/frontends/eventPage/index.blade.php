@@ -14,7 +14,7 @@
     @component('components.navbar')
     @endcomponent
 
-    <div class="my-2 p-0 h-screen overflow-x-hidden scroll-smooth">
+    <div class="my-6 p-0 h-screen overflow-x-hidden scroll-smooth">
         <div class="relative mt-16 min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100">
 
             <section class="relative py-20 lg:py-30">
@@ -58,11 +58,10 @@
                                     The Water Purification Authority Hub is a comprehensive resource center providing expert insights, guides, and solutions about water purification systems in Cambodia.       
                                 </p>
 
-                                    <a href="">
-                                        Explore →
-                                    </a>                                   
+                                 <a href="{{ route('eventPage.show', ['slug' => 'water-purification-systems-cambodia']) }}">
+                                    Explore →
                                 </a>
-                            
+                                                            
                             </div>
                         </div>
 
@@ -186,8 +185,7 @@
                 </div>
 
             </section>
-            
-
+        
         </div>
 
         <footer class="absolute inset-x-0 bottom-0 bg-black py-1 z-[50]">

@@ -289,10 +289,10 @@
                     </li>
 
                     <li
-                        class="{{ Route::is('event.index') ? 'border-b-4' : '' }}
+                        class="{{ Route::is('eventPage.index') ? 'border-b-4' : '' }}
                         hover:border-b-4 border-[#3b83db] py-4 transition-all duration-300 ease-in-out">
 
-                        <a href="{{ route('event.index', ['locale' => $locale]) }}"
+                        <a href="{{ route('eventPage.index', ['locale' => $locale]) }}"
                             class="text-white text-[14px] font-light
                             {{ session()->get('locale') === 'en'
                                 ? 'lg:text-[14px] xl:text-[18px]'

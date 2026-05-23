@@ -57,7 +57,7 @@ Route::group([
         Route::get('/partnerships', [PartnershipController::class, 'index'])->name('partnerships.index');
         Route::get('/career', [CareerController::class, 'index'])->name('career.index');
         Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
-        Route::get('/events', [EventController::class, 'index'])->name('eventPage.index');
+        // Route::get('/events', [EventController::class, 'index'])->name('eventPage.index');
         Route::get('/faqs_f', [FAQsFController::class, 'faqs'])->name('faqs');
         Route::get('/articles', [ArticleController::class, 'article'])->name('articles');
         Route::get('/articles/{slug}', [ArticleController::class, 'articleShow'])->name('articles.show');
@@ -75,12 +75,21 @@ Route::get('/{brands}/{products}/{models}/details', [BrandsController::class, 'm
 // Backend 
 
 
+Route::prefix('en')->group(function () {
+    Route::get('/events', [EventController::class, 'index'])->name('eventPage.index');
+    Route::get('/events/{slug}', [EventController::class, 'show'])->name('eventPage.show');
+});
 
-// frontend 
-Route::get('/events/{slug}', [EventController::class, 'show'])
-    ->name('event.show');
 
+// // frontend 
+// Route::get('/events/{slug}', [EventController::class, 'show'])
+//     ->name('eventPage.show');
 
+// // Make sure it has the /en prefix
+// Route::prefix('en')->group(function () {
+//     Route::get('/events', [EventController::class, 'index'])->name('eventPage.index');
+//     Route::get('/events/{slug}', [EventController::class, 'show'])->name('eventPage.show');
+// });
 
 // Submit form
 Route::post('/signup/store', [SignupController::class, 'store'])->name('signup.store');
