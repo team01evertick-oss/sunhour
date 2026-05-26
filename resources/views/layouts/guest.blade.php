@@ -40,7 +40,6 @@
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 
-    @vite('resources/css/app.css')
     <style>
         /* hide x-cloak elements until Alpine shows them */
         [x-cloak] {
