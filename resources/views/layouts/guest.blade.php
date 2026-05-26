@@ -13,7 +13,7 @@
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="shortcut icon" href="{{ asset('logos.png') }}" type="image/x-icon">
 
     {{-- CORRECT WAY (Laravel-safe & SEO-safe) --}}

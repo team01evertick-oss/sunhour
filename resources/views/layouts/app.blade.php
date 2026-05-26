@@ -101,6 +101,7 @@
 
     {{-- Vite --}}
     @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-gray-200 text-gray-900">
