@@ -20,12 +20,12 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative top-[60px]">
 
                 <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900">Our Recent Articles</h2>
+                    {{-- <h2 class="text-2xl font-bold text-gray-900">Our Recent Articles</h2>
                     <p class="mt-2 text-lg text-gray-600">Stay Informed With Our Latest Insights</p>
-                </div>
+                </div> --}}
 
                 {{-- **Featured Article (Correct ID: article-pos) - No Change Needed Here** --}}
-                <div class="mb-12 flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-8">
+                {{-- <div class="mb-12 flex flex-col lg:flex-row items-center space-y-6 lg:space-y-0 lg:space-x-8">
                     <div class="lg:w-2/5">
                         <div class="h-64 w-full bg-purple-100 flex">
                         </div>
@@ -56,7 +56,7 @@
                             </svg>
                         </button>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 

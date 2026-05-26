@@ -58,7 +58,7 @@
 
 </head>
 
-<body style="box-sizing: border-box;" class="max-w-[2048px] mx-auto bg-white text-gray-900 overflow-hidden {{ app()->getLocale() === 'en' ? 'inter' : 'kantumruy' }}">
+<body style="box-sizing: border-box;" class="max-w-[2048px] mx-auto bg-white text-gray-900 overflow-x-hidden {{ app()->getLocale() === 'en' ? 'inter' : 'kantumruy' }}">
     @yield('content')
 </body>
 

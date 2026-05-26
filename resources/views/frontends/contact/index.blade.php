@@ -24,30 +24,103 @@
                             <p class="text-gray-700 text-sm mt-2 whitespace-pre-line">
                                 @lang('message.content_ct')
                             </p>
-                            <form action="" class="flex flex-col gap-2 my-5">
-                                <label for="name" class="text-black text-[14px]">
-                                    <input type="text" name="name" id="name"
-                                        class="w-full text-black bg-gray-200 text-[14px] p-2"
-                                        placeholder="@lang('message.name_fm')">
-                                </label>
-                                <div class="flex gap-2">
-                                    <label for="email" class="text-black text-[14px] w-full">
-                                        <input type="email" name="email" id="email"
-                                            class="w-full text-black bg-gray-200 text-[14px] p-2 "
-                                            placeholder="@lang('message.email_fm')">
-                                    </label>
-                                    <label for="subject" class="text-black text-[14px] w-full">
-                                        <input type="text" name="subject" id="subject"
-                                            class="w-full text-black bg-gray-200 text-[14px] p-2 "
-                                            placeholder="@lang('message.content_fm')">
-                                    </label>
+                            <div class="mt-10 mb-8 md:mt-14 md:mb-10">
+                               <div class="w-full max-w-[620px]">
+                                    {{-- <p class="mb-4 text-sm text-gray-600">Please fill in this form to create an account!</p> --}}
+                                    <form action="{{ route('signup.store') }}" method="POST" class="space-y-4">
+                                        @csrf
+                                        <!-- Full Name -->
+                                        <div>
+                                            <input type="text" name="full_name"
+                                                class="w-full bg-[#3f3f3f] border border-[#3f3f3f] text-[#d1d5db] placeholder:text-[#aeb6c4] px-4 py-4 text-[18px] leading-none focus:outline-none focus:ring-0 focus:border-[#555555]"
+                                                placeholder="Full Name">
+                                        </div>
+
+                                        <!-- Company/Firm Name -->
+                                        <div>
+                                            <input type="text" name="company"
+                                                class="w-full bg-[#3f3f3f] border border-[#3f3f3f] text-[#d1d5db] placeholder:text-[#aeb6c4] px-4 py-4 text-[18px] leading-none focus:outline-none focus:ring-0 focus:border-[#555555]"
+                                                placeholder="Company/Firm Name">
+                                        </div>
+
+                                        <!-- Position/Title -->
+                                        <div>
+                                            <input type="text" name="position"
+                                                class="w-full bg-[#3f3f3f] border border-[#3f3f3f] text-[#d1d5db] placeholder:text-[#aeb6c4] px-4 py-4 text-[18px] leading-none focus:outline-none focus:ring-0 focus:border-[#555555]"
+                                                placeholder="Position/Title">
+                                        </div>
+
+                                        <!-- Phone Number / Telegram -->
+                                        <div>
+                                            <input type="text" name="phone"
+                                                class="w-full bg-[#3f3f3f] border border-[#3f3f3f] text-[#d1d5db] placeholder:text-[#aeb6c4] px-4 py-4 text-[18px] leading-none focus:outline-none focus:ring-0 focus:border-[#555555]"
+                                                placeholder="Phone Number / Telegram">
+                                        </div>
+
+                                        <!-- Email Address -->
+                                        <div>
+                                            <input type="email" name="email"
+                                                class="w-full bg-[#3f3f3f] border border-[#3f3f3f] text-[#d1d5db] placeholder:text-[#aeb6c4] px-4 py-4 text-[18px] leading-none focus:outline-none focus:ring-0 focus:border-[#555555]"
+                                                placeholder="Email Address">
+                                        </div>
+
+                                        <!-- Project Specialty -->
+                                        <div class="relative">
+                                            <select name="specialty"
+                                                class="w-full appearance-none bg-[#3f3f3f] border border-[#3f3f3f] text-[#d1d5db] px-4 py-4 pr-12 text-[18px] leading-none focus:outline-none focus:ring-0 focus:border-[#555555]">
+                                                <option value="" disabled selected>Project Specialty</option>
+                                                <option value="Residential">Residential</option>
+                                                <option value="Commercial">Commercial</option>
+                                                <option value="Hospitality">Hospitality</option>
+                                                <option value="Industrial">Industrial</option>
+                                            </select>
+                                            <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#d1d5db]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.25 4.51a.75.75 0 0 1-1.08 0l-4.25-4.51a.75.75 0 0 1 .02-1.06Z" clip-rule="evenodd" />
+                                                </svg>
+                                            </span>
+                                        </div>
+
+                                        <!-- How did you hear about this event? -->
+                                        <div class="relative">
+                                            <select name="heard_from"
+                                                class="w-full appearance-none bg-[#3f3f3f] border border-[#3f3f3f] text-[#d1d5db] px-4 py-4 pr-12 text-[18px] leading-none focus:outline-none focus:ring-0 focus:border-[#555555]">
+                                                <option value="" disabled selected>How did you hear about us ?
+                                                </option>
+                                                <option value="Facebook">Facebook</option>
+                                                <option value="Telegram">Telegram</option>
+                                                <option value="Invitation">Invitation</option>
+                                                <option value="Friend">Friend</option>
+                                                <option value="Supplier">Supplier</option>
+                                            </select>
+                                            <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#d1d5db]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.25 4.51a.75.75 0 0 1-1.08 0l-4.25-4.51a.75.75 0 0 1 .02-1.06Z" clip-rule="evenodd" />
+                                                </svg>
+                                            </span>
+                                        </div>
+
+                                      
+                                        <div class="flex items-start gap-3 pt-1">
+                                            <input type="checkbox" id="consent" name="consent" class="mt-1 h-4 w-4 border-gray-400 text-black focus:ring-black">
+                                            <label for="consent" class="text-sm text-gray-700">
+                                                I agree to receive event details and updates from Sun Hour Professional
+                                                Team.
+                                            </label>
+                                        </div>
+                                        <!-- Submit Button -->
+                                        <button type="submit"
+                                            class="w-full bg-black text-white py-4 text-[16px] tracking-[0.08em] uppercase hover:bg-[#1f1f1f] transition-colors">
+                                            Submit
+                                        </button>
+                                        @if(session('success'))
+                                            <div class="mb-4 p-3 bg-green-100 text-green-800 border border-green-300">
+                                                {{ session('success') }}
+                                            </div>
+                                        @endif
+                                    </form>
                                 </div>
-                                <textarea name="message" id="message"
-                                    class="w-full text-black bg-gray-200 text-[14px] p-2 "
-                                    placeholder="@lang('message.msg_fm')"></textarea>
-                                <button type="submit"
-                                    class="text-[14px] w-[150px] text-gray-100 bg-gray-900 p-2 ">@lang('message.submit')</button>
-                            </form>
+                            </div>
                             <p class="text-black text-[14px] font-[300]">
                                 @lang('message.address')
                             </p>
@@ -236,6 +309,7 @@
             </div>
 
         </div>
+        
         <footer class="absolute inset-x-0 bottom-0 bg-black py-1 z-[50]">
             <p class="text-white text-[12px] text-center"> © Copyright 2024 SUNHOUR GROUP, All Rights Reserved</p>
         </footer>

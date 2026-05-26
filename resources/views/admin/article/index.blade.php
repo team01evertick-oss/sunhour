@@ -30,6 +30,8 @@
                     <thead>
                         <tr class="text-gray-500 border-gray-200">
                             <th>Photo</th>
+                            <th>Category</th>
+                            <th>Subcategory</th>
                             <th>Title</th>
                             <th>Sub Title</th>
                             <th>Content</th>
@@ -45,6 +47,8 @@
                                     <img src="{{ $item->photo ? asset('uploads/articles/' . $item->photo) : '' }}"
                                         class="w-16 h-16 rounded object-cover">
                                 </td>
+                                <td>{{ $item->category }}</td>
+                                <td>{{ $item->subcategory }}</td>
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->subtitle }}</td>
 
@@ -131,6 +135,56 @@
                     <label class="block font-medium">Photo</label>
                     <input type="file" name="photo" class="w-full border p-2 rounded" onchange="previewAddImage(this)">
                     <img id="addPreview" class="w-28 h-28 mt-2 rounded hidden object-cover" />
+                </div>
+
+                <h3 class="font-bold text-lg mt-4 mb-2 text-slate-700">Grouping</h3>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Category (EN)</label>
+                    <input type="text" name="category" class="w-full border p-2 rounded" required value="{{ old('category') }}">
+                    @error('category')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Category (KH)</label>
+                    <input type="text" name="category_kh" class="w-full border p-2 rounded" value="{{ old('category_kh') }}">
+                    @error('category_kh')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Category (CN)</label>
+                    <input type="text" name="category_cn" class="w-full border p-2 rounded" value="{{ old('category_cn') }}">
+                    @error('category_cn')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (EN)</label>
+                    <input type="text" name="subcategory" class="w-full border p-2 rounded" required value="{{ old('subcategory') }}">
+                    @error('subcategory')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (KH)</label>
+                    <input type="text" name="subcategory_kh" class="w-full border p-2 rounded" value="{{ old('subcategory_kh') }}">
+                    @error('subcategory_kh')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (CN)</label>
+                    <input type="text" name="subcategory_cn" class="w-full border p-2 rounded" value="{{ old('subcategory_cn') }}">
+                    @error('subcategory_cn')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <h3 class="font-bold text-lg mt-4 mb-2 text-blue-700">English</h3>
@@ -270,6 +324,39 @@
 
                 {{-- ---------------- ENGLISH ---------------- --}}
                 <hr class="my-4">
+                <h3 class="font-bold text-lg text-slate-700">Grouping</h3>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Category (EN)</label>
+                    <input type="text" id="edit_category" name="category" class="w-full border p-2 rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Category (KH)</label>
+                    <input type="text" id="edit_category_kh" name="category_kh" class="w-full border p-2 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Category (CN)</label>
+                    <input type="text" id="edit_category_cn" name="category_cn" class="w-full border p-2 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (EN)</label>
+                    <input type="text" id="edit_subcategory" name="subcategory" class="w-full border p-2 rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (KH)</label>
+                    <input type="text" id="edit_subcategory_kh" name="subcategory_kh" class="w-full border p-2 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (CN)</label>
+                    <input type="text" id="edit_subcategory_cn" name="subcategory_cn" class="w-full border p-2 rounded">
+                </div>
+
+                <hr class="my-4">
                 <h3 class="font-bold text-lg text-blue-700">English</h3>
 
                 <div class="mb-4">
@@ -354,7 +441,11 @@
 
     @if ($errors->any())
         <script>
-            @if ($errors->has('title') || $errors->has('title_kh') || $errors->has('title_cn'))
+            @if (
+                $errors->has('category') || $errors->has('category_kh') || $errors->has('category_cn') ||
+                $errors->has('subcategory') || $errors->has('subcategory_kh') || $errors->has('subcategory_cn') ||
+                $errors->has('title') || $errors->has('title_kh') || $errors->has('title_cn')
+            )
                 document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('addModal').classList.remove('hidden');
                 });
@@ -416,6 +507,13 @@
                     fetch(editUrl)
                         .then(res => res.json())
                         .then(data => {
+
+                            document.getElementById("edit_category").value = data.category || '';
+                            document.getElementById("edit_category_kh").value = data.category_kh || '';
+                            document.getElementById("edit_category_cn").value = data.category_cn || '';
+                            document.getElementById("edit_subcategory").value = data.subcategory || '';
+                            document.getElementById("edit_subcategory_kh").value = data.subcategory_kh || '';
+                            document.getElementById("edit_subcategory_cn").value = data.subcategory_cn || '';
 
                             // English
                             document.getElementById("edit_title").value = data.title;

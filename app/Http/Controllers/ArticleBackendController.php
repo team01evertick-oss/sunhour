@@ -12,7 +12,7 @@ class ArticleBackendController extends Controller
     // ================= SHOW TABLE =================
     public function index()
     {
-        $data = Article::orderBy('id', 'asc')->paginate(10);
+        $data = Article::orderBy('id', 'desc')->paginate(10);
         return view("admin.article.index", compact("data"));
     }
 
@@ -20,6 +20,13 @@ class ArticleBackendController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'category'    => 'required|string|max:255',
+            'category_kh' => 'nullable|string|max:255',
+            'category_cn' => 'nullable|string|max:255',
+            'subcategory'    => 'required|string|max:255',
+            'subcategory_kh' => 'nullable|string|max:255',
+            'subcategory_cn' => 'nullable|string|max:255',
+
             // English
             'title'       => 'required|string|max:255',
             'subtitle'    => 'nullable|string|max:255',
@@ -27,13 +34,13 @@ class ArticleBackendController extends Controller
             'description' => 'nullable|string',
 
             // Khmer
-            'title_kh'       => 'required|string|max:255',
+            'title_kh'       => 'nullable|string|max:255',
             'subtitle_kh'    => 'nullable|string|max:255',
             'content_kh'     => 'nullable|string',
             'description_kh' => 'nullable|string',
 
             // Chinese
-            'title_cn'       => 'required|string|max:255',
+            'title_cn'       => 'nullable|string|max:255',
             'subtitle_cn'    => 'nullable|string|max:255',
             'content_cn'     => 'nullable|string',
             'description_cn' => 'nullable|string',
@@ -43,6 +50,7 @@ class ArticleBackendController extends Controller
         ]);
 
         $slug = Str::slug($validated['title'], '-');
+        $categorySlug = Str::slug($validated['category'], '-');
 
         // Handle photo
         $filename = null;
@@ -54,9 +62,16 @@ class ArticleBackendController extends Controller
 
         Article::create([
             'photo' => $filename,
+            'category' => $validated['category'],
+            'category_kh' => $validated['category_kh'] ?? null,
+            'category_cn' => $validated['category_cn'] ?? null,
+            'category_slug' => $categorySlug,
 
             // Slug
             'slug' => $slug,
+            'subcategory' => $validated['subcategory'],
+            'subcategory_kh' => $validated['subcategory_kh'] ?? null,
+            'subcategory_cn' => $validated['subcategory_cn'] ?? null,
 
             // English
             'title'       => $validated['title'],
@@ -77,7 +92,7 @@ class ArticleBackendController extends Controller
             'description_cn' => $validated['description_cn'],
         ]);
 
-        return back()->with('success', 'Article created successfully!');
+        return redirect()->route('article.index')->with('success', 'Article created successfully!');
     }
 
 
@@ -92,6 +107,13 @@ class ArticleBackendController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
+            'category'    => 'required|string|max:255',
+            'category_kh' => 'nullable|string|max:255',
+            'category_cn' => 'nullable|string|max:255',
+            'subcategory'    => 'required|string|max:255',
+            'subcategory_kh' => 'nullable|string|max:255',
+            'subcategory_cn' => 'nullable|string|max:255',
+
             // English
             'title'       => 'required|string|max:255',
             'subtitle'    => 'nullable|string|max:255',
@@ -99,13 +121,13 @@ class ArticleBackendController extends Controller
             'description' => 'nullable|string',
 
             // Khmer
-            'title_kh'       => 'required|string|max:255',
+            'title_kh'       => 'nullable|string|max:255',
             'subtitle_kh'    => 'nullable|string|max:255',
             'content_kh'     => 'nullable|string',
             'description_kh' => 'nullable|string',
 
             // Chinese
-            'title_cn'       => 'required|string|max:255',
+            'title_cn'       => 'nullable|string|max:255',
             'subtitle_cn'    => 'nullable|string|max:255',
             'content_cn'     => 'nullable|string',
             'description_cn' => 'nullable|string',
@@ -117,7 +139,15 @@ class ArticleBackendController extends Controller
 
         // 🔥 generate slug
         $slug = Str::slug($validated['title'], '-');
+        $categorySlug = Str::slug($validated['category'], '-');
         $article->slug = $slug;
+        $article->category = $validated['category'];
+        $article->category_kh = $validated['category_kh'] ?? null;
+        $article->category_cn = $validated['category_cn'] ?? null;
+        $article->category_slug = $categorySlug;
+        $article->subcategory = $validated['subcategory'];
+        $article->subcategory_kh = $validated['subcategory_kh'] ?? null;
+        $article->subcategory_cn = $validated['subcategory_cn'] ?? null;
 
         // English
         $article->title       = $validated['title'];

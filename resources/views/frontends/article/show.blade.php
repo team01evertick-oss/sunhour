@@ -1,77 +1,73 @@
 @extends('layouts.guest')
+
 @php
     use Artesaos\SEOTools\Facades\SEOTools;
 @endphp
+
 @section('meta_tag')
     {!! SEOTools::generate() !!}
 @endsection
+
 @section('content')
-    {{-- Navbar --}}
     @component('components.navbar')
     @endcomponent
 
-    <style>
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
+    @php
+        $categoryName = app()->getLocale() === 'en'
+            ? $article->category
+            : (app()->getLocale() === 'km'
+                ? ($article->category_kh ?: $article->category)
+                : ($article->category_cn ?: $article->category));
+    @endphp
 
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
-
-        <div class="w-full max-w-7xl mx-auto h-[100vh] flex flex-col pt-32 overflow-y-auto hide-scrollbar">
-
-            <div class="bg-white w-full min-h-[30vh] md:min-h-[50vh]">
-                <img src="{{ asset('uploads/articles/' . $article->photo) }}" alt="{{ $article->title }}"
-                    class="h-full w-full object-contain">
-            </div>
-
-            <div class="p-6 flex flex-col flex-grow">
-                @php
-                    $month = $article->created_at->format('M');
-                    $day = $article->created_at->format('d');
-                    $year = $article->created_at->format('Y');
-
-                    $month = __('date.months.' . $month);
-                @endphp
-                <p class="text-[14px] md:text-[16px] text-gray-500 mb-1">
-                    {{ "$day $month, $year" }}
-                </p>
-
-                <h4 class="font-bold text-[16px] md:text-[20px] text-gray-900 mb-2">
-                    {{ app()->getLocale() === 'en'
-                        ? $article->title
-                        : (app()->getLocale() === 'km'
-                            ? $article->title_kh
-                            : $article->title_cn) }}
-                </h4>
-
-                <p class="text-gray-600 text-[14px] md:text-[16px] mb-4">
-                    {{ app()->getLocale() === 'en'
-                        ? $article->subtitle
-                        : (app()->getLocale() === 'km'
-                            ? $article->subtitle_kh
-                            : $article->subtitle_cn) }}
-                </p>
-
-                <p class="text-gray-600 text-sm mb-4">
-                    {!! app()->getLocale() === 'en'
-                        ? $article->description
-                        : (app()->getLocale() === 'km'
-                            ? $article->description_kh
-                            : $article->description_cn) !!}
-                </p>
-
-                <div class="mt-5">
-                    <a href="{{ route('articles', ['locale' => app()->getLocale()]) }}" class="text-black border border-blue-800 px-6 py-2 rounded-sm hover:bg-blue-800 hover:text-[#fff] duration-300 transition-all font-medium">
-                        {{ app()->getLocale() === 'en' ? 'Back' : (app()->getLocale() === 'km' ? 'ថយក្រោយ' : 'Back') }}
-                    </a>
+    <div class="min-h-screen bg-[#f6f7fb] pt-28 pb-16 md:pt-32">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div>
+                    <span class="inline-flex rounded-full bg-[#e6ebff] px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#4048a8]">
+                        {{ __('Category Name') }}
+                    </span>
+                    <h1 class="mt-4 text-3xl font-bold text-[#343ca3] md:text-5xl">
+                        {{ $categoryName }}
+                    </h1>
                 </div>
 
+                <a href="{{ route('articles.index', ['locale' => app()->getLocale()]) }}"
+                    class="inline-flex items-center justify-center rounded-full border border-[#4b55b6] px-5 py-2 text-sm font-semibold text-[#4b55b6] transition hover:bg-[#4b55b6] hover:text-white">
+                    {{ __('Back To Categories') }}
+                </a>
             </div>
 
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach ($articles as $item)
+                    @php
+                        $subcategoryName = app()->getLocale() === 'en'
+                            ? ($item->subcategory ?: $item->title)
+                            : (app()->getLocale() === 'km'
+                                ? ($item->subcategory_kh ?: $item->subcategory ?: $item->title_kh ?: $item->title)
+                                : ($item->subcategory_cn ?: $item->subcategory ?: $item->title_cn ?: $item->title));
+                    @endphp
+
+                    <article class="overflow-hidden rounded-[28px] bg-white shadow-[0_20px_40px_rgba(15,23,42,0.08)]">
+                        <div class="h-56 overflow-hidden bg-gray-100">
+                            <img src="{{ asset('uploads/articles/' . $item->photo) }}"
+                                alt="{{ $subcategoryName }}"
+                                class="h-full w-full object-cover">
+                        </div>
+
+                        <div class="p-6">
+                            <h2 class="text-xl font-bold text-[#251fa3]">
+                                {{ $subcategoryName }}
+                            </h2>
+
+                            <a href="{{ route('articles.details', ['locale' => app()->getLocale(), 'categorySlug' => $item->category_slug, 'slug' => $item->slug]) }}"
+                                class="mt-5 inline-flex items-center justify-center rounded-full bg-[#4748a8] px-5 py-2 text-sm font-semibold text-black border-1 border transition hover:bg-[#37388c]">
+                                {{ __('View Details') }}
+                            </a>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
         </div>
-    
+    </div>
 @endsection

@@ -13,7 +13,14 @@ class Article extends Model
     protected $table = 'articles';
     protected $fillable = [
         'photo',
+        'category',
+        'category_kh',
+        'category_cn',
+        'category_slug',
         'slug',
+        'subcategory',
+        'subcategory_kh',
+        'subcategory_cn',
 
         // English fields
         'title',

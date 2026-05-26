@@ -11,7 +11,18 @@ class ArticleController extends Controller
 {
     public function article()
     {
-        $articles = Article::orderBy('id', 'asc')->paginate(20);
+        $articles = Article::orderBy('category', 'asc')
+            ->orderBy('subcategory', 'asc')
+            ->get();
+
+        $categories = $articles
+            ->groupBy(function ($article) {
+                return $article->category_slug ?: 'general';
+            })
+            ->map(function ($group) {
+                return $group->first();
+            })
+            ->values();
 
         SEOTools::setTitle("Articles" . ' | ');
         SEOTools::setDescription(
@@ -25,19 +36,42 @@ class ArticleController extends Controller
         SEOTools::opengraph()->addProperty('type', 'website');
         SEOTools::twitter()->setSite('@SunHourGroup');
 
-        return view('frontends.article.index', compact('articles'));
+        return view('frontends.article.index', compact('categories'));
     }
 
-    public function articleShow($locale,$slug)
+    public function articleShow($locale, $categorySlug)
     {
-        // Fetch a single article or throw a 404 if not found
-        $article = Article::where('slug', $slug)->firstOrFail();
+        $articles = Article::where('category_slug', $categorySlug)
+            ->orderBy('subcategory', 'asc')
+            ->get();
 
-        // SEO Settings
-        $title = (app()->getLocale() === 'km') ? $article->title_kh : $article->title;
+        abort_if($articles->isEmpty(), 404);
+
+        $article = $articles->first();
+
+        $title = app()->getLocale() === 'en'
+            ? $article->category
+            : (app()->getLocale() === 'km'
+                ? ($article->category_kh ?: $article->category)
+                : ($article->category_cn ?: $article->category));
         SEOTools::setTitle($title);
-        SEOTools::setDescription(strip_tags($article->description));
+        SEOTools::setDescription(strip_tags($article->description ?: $article->content ?: ''));
 
-        return view('frontends.article.show', compact('article'));
+        return view('frontends.article.show', compact('article', 'articles'));
+    }
+
+    public function articleDetail($locale, $categorySlug, $slug)
+    {
+        $article = Article::where('category_slug', $categorySlug)
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        $title = app()->getLocale() === 'en'
+            ? $article->title
+            : (app()->getLocale() === 'km' ? $article->title_kh : $article->title_cn);
+        SEOTools::setTitle($title);
+        SEOTools::setDescription(strip_tags($article->description ?: $article->content ?: ''));
+
+        return view('frontends.article.detail', compact('article'));
     }
 }

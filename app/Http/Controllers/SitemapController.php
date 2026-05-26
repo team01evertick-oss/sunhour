@@ -22,7 +22,7 @@ class SitemapController extends Controller
             'career.index',
             'contact.index',
             'faqs',
-            'articles',
+            'articles.index',
         ];
 
         foreach ($locales as $locale) {
@@ -36,10 +36,21 @@ class SitemapController extends Controller
 
         // Articles
         foreach ($locales as $locale) {
-            foreach (Article::where('status', 1)->get() as $article) {
+            foreach (Article::whereNotNull('category_slug')->select('category_slug')->distinct()->get() as $category) {
                 $sitemap->add(
                     Url::create(route('articles.show', [
                         'locale' => $locale,
+                        'categorySlug' => $category->category_slug
+                    ]))
+                    ->setPriority(0.8)
+                );
+            }
+
+            foreach (Article::where('status', 1)->get() as $article) {
+                $sitemap->add(
+                    Url::create(route('articles.details', [
+                        'locale' => $locale,
+                        'categorySlug' => $article->category_slug,
                         'slug' => $article->slug
                     ]))
                     ->setPriority(0.7)

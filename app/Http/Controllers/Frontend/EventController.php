@@ -3,69 +3,70 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
-    private function getArticles(): array
+    private function getEventField(Event $event, string $field): ?string
     {
+        $locale = app()->getLocale();
+        $localizedField = $field . '_' . $locale;
+
+        if (in_array($locale, ['km', 'cn'], true) && !empty($event->{$localizedField})) {
+            return $event->{$localizedField};
+        }
+
+        return $event->{$field};
+    }
+
+    private function mapEvent(Event $event, int $index): array
+    {
+        $colors = ['blue', 'teal', 'amber', 'purple', 'orange'];
+        $color = $colors[$index % count($colors)];
+
         return [
-            [
-                'num'   => '01',
-                'tag'   => 'Water Purifier Product',
-                'title' => 'Complete Guide to Water Purification Systems in Cambodia',
-                'slug'  => 'water-purification-systems-cambodia',
-                'color' => 'blue',
-                'badge' => 'Purepro Collection',
-                'desc'  => 'A comprehensive resource center providing expert insights about water purification systems in Cambodia.',
-            ],
-            [
-                'num'   => '02',
-                'tag'   => 'Water Filter Cambodia',
-                'title' => 'Water Purifier vs Water Filter: What\'s the Difference?',
-                'slug'  => 'water-purifier-vs-water-filter',
-                'color' => 'teal',
-                'badge' => 'PurePro Series',
-                'desc'  => 'Understand the key differences between water purifiers and filters to make the best choice for your home.',
-            ],
-            [
-                'num'   => '03',
-                'tag'   => 'Water Purifier',
-                'title' => 'Signs Your Home Needs a Water Filtration System',
-                'slug'  => 'signs-home-needs-filtration',
-                'color' => 'amber',
-                'badge' => 'Home Solutions',
-                'desc'  => 'Learn the warning signs that indicate your home may need a water filtration system installed.',
-            ],
-            [
-                'num'   => '04',
-                'tag'   => 'PurePro',
-                'title' => 'Best Water Purifier for Homes in Cambodia',
-                'slug'  => 'best-water-purifier-cambodia',
-                'color' => 'purple',
-                'badge' => 'PurePro',
-                'desc'  => 'Top-rated water purifiers reviewed and recommended for Cambodian households.',
-            ],
-            [
-                'num'   => '05',
-                'tag'   => 'Commercial Solutions',
-                'title' => 'Commercial Water Filtration Systems for Offices and Restaurants',
-                'slug'  => 'commercial-water-filtration',
-                'color' => 'orange',
-                'badge' => 'Commercial',
-                'desc'  => 'Industrial-grade filtration systems built for high-demand commercial environments.',
-            ],
+            'id' => $event->id,
+            'num' => str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT),
+            'slug' => Str::slug($this->getEventField($event, 'title') ?: 'event-' . $event->id),
+            'title' => $this->getEventField($event, 'title'),
+            'tag' => $event->category ?: 'Event',
+            'color' => $color,
+            'badge' => $this->getEventField($event, 'badge') ?: 'Featured Event',
+            'desc' => $this->getEventField($event, 'short_description'),
+            'description' => $this->getEventField($event, 'description'),
+            'features' => $this->getEventField($event, 'features'),
+            'image' => $event->image,
+            'brand' => $event->brand,
+            'category' => $event->category,
+            'availability' => $event->availability,
+            'cta_question' => $event->cta_question,
+            'cta_title' => $event->cta_title,
+            'cta_url' => $event->cta_url,
         ];
+    }
+
+    private function getEvents()
+    {
+        return Event::query()
+            ->where('status', 1)
+            ->latest()
+            ->get()
+            ->values()
+            ->map(fn (Event $event, int $index) => $this->mapEvent($event, $index));
     }
 
     public function index()
     {
-        return view('frontends.eventPage.index');
+        $events = $this->getEvents();
+
+        return view('frontends.eventPage.index', compact('events'));
     }
 
     public function show($slug)
     {
-        $articles = $this->getArticles();
-        $current  = collect($articles)->firstWhere('slug', $slug);
+        $articles = $this->getEvents();
+        $current = collect($articles)->firstWhere('slug', $slug);
 
         if (!$current) {
             abort(404);

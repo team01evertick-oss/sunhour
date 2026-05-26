@@ -307,9 +307,9 @@
                     </li>
 
                     <li
-                        class="{{ Route::is('articles') ? 'border-b-4' : '' }}
+                        class="{{ Route::is('articles.index') ? 'border-b-4' : '' }}
                     hover:border-b-4 border-[#3b83db] py-4 transition-all duration-300 ease-in-out">
-                        <a href="{{ route('articles', ['locale' => $locale]) }}"
+                        <a href="{{ route('articles.index', ['locale' => $locale]) }}"
                             class="text-white text-[14px] font-light
                         {{ session()->get('locale') === 'en' ? '  lg:text-[14px] xl:text-[18px]' : 'lg:text-[12px] xl:text-[14px]' }}
                         ">
@@ -647,9 +647,9 @@
                     </a>
                 </li>
                 <li
-                    class="w-full p-2 {{ Route::is('articles') ? 'bg-white/30' : '' }}
+                    class="w-full p-2 {{ Route::is('articles.index') ? 'bg-white/30' : '' }}
                     hover:border-b-4 border-[#3b83db] py-4 transition-all duration-300 ease-in-out">
-                    <a href="{{ route('articles', ['locale' => app()->getLocale()]) }}"
+                    <a href="{{ route('articles.index', ['locale' => app()->getLocale()]) }}"
                         class="text-white text-[14px] font-[400]
                         {{ session()->get('locale') === 'en' ? '  lg:text-[16px] xl:text-[18px]' : ' lg:text-[14px] xl:text-[16px]' }}
                         ">

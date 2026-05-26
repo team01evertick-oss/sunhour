@@ -258,8 +258,37 @@
 
                 @csrf
 
+                <h3 class="font-bold text-lg mt-4 mb-2 text-purple-700">Category</h3>
 
+                <div class="mb-4">
+                    <label class="block font-medium">Category (EN)</label>
+                    <input type="text" name="category" class="w-full border p-2 rounded" required>
+                </div>
 
+                <div class="mb-4">
+                    <label class="block font-medium">Category (KH)</label>
+                    <input type="text" name="category_kh" class="w-full border p-2 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Category (CN)</label>
+                    <input type="text" name="category_cn" class="w-full border p-2 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (EN)</label>
+                    <input type="text" name="subcategory" class="w-full border p-2 rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (KH)</label>
+                    <input type="text" name="subcategory_kh" class="w-full border p-2 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (CN)</label>
+                    <input type="text" name="subcategory_cn" class="w-full border p-2 rounded">
+                </div>
                 {{-- Photo --}}
 
                 <div class="mb-4">
@@ -458,8 +487,37 @@
 
                 @method('PUT')
 
+                <h3 class="font-bold text-lg mt-4 mb-2 text-purple-700">Category</h3>
 
+                <div class="mb-4">
+                    <label class="block font-medium">Category (EN)</label>
+                    <input type="text" id="edit_category" name="category" class="w-full border p-2 rounded" required>
+                </div>
 
+                <div class="mb-4">
+                    <label class="block font-medium">Category (KH)</label>
+                    <input type="text" id="edit_category_kh" name="category_kh" class="w-full border p-2 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Category (CN)</label>
+                    <input type="text" id="edit_category_cn" name="category_cn" class="w-full border p-2 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (EN)</label>
+                    <input type="text" id="edit_subcategory" name="subcategory" class="w-full border p-2 rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (KH)</label>
+                    <input type="text" id="edit_subcategory_kh" name="subcategory_kh" class="w-full border p-2 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium">Subcategory (CN)</label>
+                    <input type="text" id="edit_subcategory_cn" name="subcategory_cn" class="w-full border p-2 rounded">
+                </div>
                 {{-- Photo --}}
 
                 <div class="mb-4">
@@ -716,6 +774,12 @@
 
                         // English
 
+                        document.getElementById("edit_category").value = data.category ?? '';
+                        document.getElementById("edit_category_kh").value = data.category_kh ?? '';
+                        document.getElementById("edit_category_cn").value = data.category_cn ?? '';
+                        document.getElementById("edit_subcategory").value = data.subcategory ?? '';
+                        document.getElementById("edit_subcategory_kh").value = data.subcategory_kh ?? '';
+                        document.getElementById("edit_subcategory_cn").value = data.subcategory_cn ?? '';
                         document.getElementById("edit_title").value = data.title;
 
                         document.getElementById("edit_subtitle").value = data.subtitle;
@@ -905,3 +969,4 @@
 
 
 @endsection
+

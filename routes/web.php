@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\FAQsController;
 use App\Http\Controllers\Frontend\FAQsFController;
 use Illuminate\Support\Facades\Route;
@@ -51,16 +52,22 @@ Route::get('/', [HomeController::class, 'HomePage'])->name('home');
 Route::group([
     'prefix' => '{locale}',
     'where' => ['locale' => 'en|km|cn'],
-    'middleware' => \App\Http\Middleware\SetLanguage::class], function () {
+    'middleware' => \App\Http\Middleware\SetLanguage::class
+], function () {
 
-        Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us');
-        Route::get('/partnerships', [PartnershipController::class, 'index'])->name('partnerships.index');
-        Route::get('/career', [CareerController::class, 'index'])->name('career.index');
-        Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
-        // Route::get('/events', [EventController::class, 'index'])->name('eventPage.index');
-        Route::get('/faqs_f', [FAQsFController::class, 'faqs'])->name('faqs');
-        Route::get('/articles', [ArticleController::class, 'article'])->name('articles');
-        Route::get('/articles/{slug}', [ArticleController::class, 'articleShow'])->name('articles.show');
+    Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us');
+    Route::get('/partnerships', [PartnershipController::class, 'index'])->name('partnerships.index');
+    Route::get('/career', [CareerController::class, 'index'])->name('career.index');
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+    // Route::get('/events', [EventController::class, 'index'])->name('eventPage.index');
+    Route::get('/faqs_f', [FAQsFController::class, 'faqs'])->name('faqs');
+    // Step 1: Index View (Top Left on map) -> Shows the main landing grid
+    // Change the .name('articles') at the end to ->name('articles.index')
+Route::get('/articles', [ArticleController::class, 'article'])->name('articles.index');
+
+    // Step 2: Grid Selection View (Bottom Left on map) -> Highlights the selected name block
+    Route::get('/articles/{categorySlug}', [ArticleController::class, 'articleShow'])->name('articles.show');
+    Route::get('/articles/{categorySlug}/{slug}/details', [ArticleController::class, 'articleDetail'])->name('articles.details');
 });
 Route::get('/models', [SearchController::class, 'index'])->name('search.index');
 Route::get('/all/brands', [BrandsController::class, 'index'])->name('brands.all');
@@ -134,7 +141,7 @@ Route::group(['middleware' => 'auth.jwt', 'prefix' => 'admin'], function () {
     Route::resource('{brands}/{products}/{models}/downloads', FileDownloadController::class);
     // This single line defines: index, store, show, update, and destroy (DELETE)
     Route::resource('/faqs', FAQsController::class);
-   // This generates: GET /admin/article/{article}/edit which is what your fetch is hitting. 
+    // This generates: GET /admin/article/{article}/edit which is what your fetch is hitting. 
     Route::resource('/article', ArticleBackendController::class);
 
     // event
@@ -159,53 +166,53 @@ Route::get('/generate-sitemap', function () {
     );
 
     foreach (Brand::all() as $brand) {
-    // Brand page
-    $sitemap->add(
-        Url::create(route('brands-client.show', [
+        // Brand page
+        $sitemap->add(
+            Url::create(route('brands-client.show', [
                 'locale' => app()->getLocale(),
                 'skug' => $brand->skug
             ]))
-        ->setPriority(0.8)
-        ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-    );
-
-    foreach ($brand->products as $product) {
-        if ($product->status === 1) {
-            $sitemap->add(
-                Url::create(route('category.show', [
-                    'locale' => app()->getLocale(),
-                    'brands' => $brand->slug,
-                    'products' => $product->slug
-                ]))
-                ->setPriority(0.7)
+                ->setPriority(0.8)
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-            );
-        } else {
-            $sitemap->add(
-                Url::create(route('brands-client.model', [
-                    'locale' => app()->getLocale(),
-                    'brands' => $brand->slug,
-                    'products' => $product->slug
-                ]))
-                ->setPriority(0.6)
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-            );
-        }
+        );
 
-        foreach ($product->models as $model) {
-            $sitemap->add(
-                Url::create(route('brands-client.model-details', [
-                    'locale' => app()->getLocale(),
-                    'brands' => $brand->slug,
-                    'products' => $product->slug,
-                    'models' => $model->uuid
-                ]))
-                ->setPriority(0.5)
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-            );
+        foreach ($brand->products as $product) {
+            if ($product->status === 1) {
+                $sitemap->add(
+                    Url::create(route('category.show', [
+                        'locale' => app()->getLocale(),
+                        'brands' => $brand->slug,
+                        'products' => $product->slug
+                    ]))
+                        ->setPriority(0.7)
+                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                );
+            } else {
+                $sitemap->add(
+                    Url::create(route('brands-client.model', [
+                        'locale' => app()->getLocale(),
+                        'brands' => $brand->slug,
+                        'products' => $product->slug
+                    ]))
+                        ->setPriority(0.6)
+                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                );
+            }
+
+            foreach ($product->models as $model) {
+                $sitemap->add(
+                    Url::create(route('brands-client.model-details', [
+                        'locale' => app()->getLocale(),
+                        'brands' => $brand->slug,
+                        'products' => $product->slug,
+                        'models' => $model->uuid
+                    ]))
+                        ->setPriority(0.5)
+                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+                );
+            }
         }
     }
-}
 
 
     $sitemap->writeToFile(public_path('sitemap.xml'));
