@@ -137,7 +137,7 @@
                 </button>
             </div>
 
-           <form action="" method="POST"
+           <form action="{{ route('event.store') }}" method="POST"
       enctype="multipart/form-data" class="ev-form">
                 @csrf
 
@@ -581,10 +581,10 @@
 
 {{-- ════════════════ JS ════════════════ --}}
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+// Global editors map for CKEditor instances
+const editors = {};
 
-    /* ── CKEditor instances map ── */
-    const editors = {};
+document.addEventListener('DOMContentLoaded', () => {
 
     function initCK(id) {
         if (editors[id]) return;
@@ -713,8 +713,8 @@ function openEditModal(event) {
 }
 
 function setCKEditData(id, data) {
-    if (window.editors && window.editors[id]) {
-        window.editors[id].setData(data);
+    if (editors && editors[id]) {
+        editors[id].setData(data);
     } else {
         const el = document.getElementById(id);
         if (el) el.value = data;

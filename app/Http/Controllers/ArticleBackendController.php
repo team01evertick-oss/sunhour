@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\File;
 class ArticleBackendController extends Controller
 {
     // ================= SHOW TABLE =================
-    public function index()
-    {
-        $data = Article::orderBy('id', 'desc')->paginate(10);
-        return view("admin.article.index", compact("data"));
-    }
+   public function index()
+{
+    // Fetches ALL articles from the database, ordered from newest to oldest
+    $data = Article::orderBy('id', 'desc')->get();
+    
+    return view("admin.article.index", compact("data"));
+}
 
     // ================= STORE =================
     public function store(Request $request)

@@ -61,7 +61,7 @@
                             </h2>
 
                             <a href="{{ route('articles.details', ['locale' => app()->getLocale(), 'categorySlug' => $item->category_slug, 'slug' => $item->slug]) }}"
-                                class="mt-5 inline-flex items-center justify-center rounded-full bg-[#4748a8] px-5 py-2 text-sm font-semibold text-black border-1 border transition hover:bg-[#37388c]">
+                                class="mt-5 inline-flex items-center justify-center rounded-full bg-[#4748a8] px-5 py-2 text-sm font-semibold text-white border-1 border transition hover:bg-[#37388c]">
                                 {{ __('View Details') }}
                             </a>
                         </div>

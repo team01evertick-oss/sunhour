@@ -9,102 +9,102 @@
 @endsection
 
 @section('content')
+    {{-- Navbar --}}
     @component('components.navbar')
     @endcomponent
 
-    <div class="min-h-screen overflow-x-hidden bg-[#f3f3f3]">
+    {{-- PAGE --}}
+    <div class="min-h-screen bg-[#f5f5f5] py-20 overflow-hidden">
 
-        <section class="pt-28 pb-20 md:pt-36">
+        <div class="max-w-[1300px] mx-auto px-6 lg:px-10">
 
-            <div class="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
+            {{-- TITLE --}}
+            <div class="text-center my-24">
+                <h1 class="text-4xl md:text-5xl font-bold text-[#4f6ef7] tracking-wide">
+                    EVENTS
+                </h1>
+            </div>
 
-                {{-- Title --}}
-                <div class="mb-20 text-center">
-                    <h2 class="text-4xl font-bold tracking-wide text-[#5c85ff] md:text-5xl">
-                        EVENTS
-                    </h2>
-                </div>
+            {{-- EVENTS --}}
+            <div class="space-y-28">
 
-                {{-- Events --}}
-                <div class="space-y-24">
+               @forelse ($events as $event)
+    @if ($loop->odd)
+        {{-- IMAGE LEFT / TEXT RIGHT --}}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-                    @forelse ($events as $index => $event)
-                        <article class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+            {{-- IMAGE --}}
+            <div class="lg:col-span-7 overflow-hidden rounded-[24px]">
+                <img src="{{ asset('storage/' . $event['image']) }}" alt="{{ $event['title'] }}"
+                     class="w-full h-[400px] object-cover">
+            </div>
 
-                            {{-- LEFT IMAGE --}}
-                            <div class="{{ $index % 2 != 0 ? 'lg:order-2' : '' }}">
+            {{-- TEXT --}}
+            <div class="lg:col-span-5">
+                <h2 class="text-2xl md:text-3xl font-semibold text-[#4f6ef7] mb-4">
+                    {{ $event['title'] }}
+                </h2>
 
-                                <a href="{{ route('eventPage.show', ['slug' => $event['slug']]) }}"
-                                    class="block overflow-hidden rounded-[24px] bg-[#e5e5e5]">
+                <p class="text-base md:text-lg leading-relaxed text-[#444] mb-6">
+                    {{ \Illuminate\Support\Str::limit(strip_tags($event['desc'] ?: $event['description'] ?? ''), 250) }}
+                </p>
 
-                                    @if ($event['image'])
-                                        <img src="{{ asset('storage/' . $event['image']) }}" alt="{{ $event['title'] }}"
-                                            class="h-[260px] w-full object-cover transition duration-500 hover:scale-105 md:h-[360px] lg:h-[420px]">
-                                    @else
-                                        <div
-                                            class="flex h-[260px] items-center justify-center bg-[#e5e5e5] text-sm text-gray-400 md:h-[360px] lg:h-[420px]">
-                                            No Image
-                                        </div>
-                                    @endif
+                <a href="{{ route('eventPage.show', ['slug' => $event['slug']]) }}"
+                   class="inline-flex items-center gap-2 text-base md:text-lg font-medium text-gray-700 hover:text-[#4f6ef7] transition-colors">
+                    <span class="text-xl">→</span>
+                    <span>Detail</span>
+                </a>
+            </div>
 
-                                </a>
+        </div>
+    @else
+        {{-- TEXT LEFT / IMAGE RIGHT --}}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-                            </div>
+            {{-- TEXT --}}
+            <div class="lg:col-span-5 order-2 lg:order-1">
+                <h2 class="text-2xl md:text-3xl font-semibold text-[#4f6ef7] mb-4">
+                    {{ $event['title'] }}
+                </h2>
 
-                            {{-- RIGHT CONTENT --}}
-                            <div class="{{ $index % 2 != 0 ? 'lg:order-1' : '' }}">
+                <p class="text-base md:text-lg leading-relaxed text-[#444] mb-6">
+                    {{ \Illuminate\Support\Str::limit(strip_tags($event['desc'] ?: $event['description'] ?? ''), 250) }}
+                </p>
 
-                                <h2 class="text-[28px] font-bold leading-tight text-[#5c85ff] md:text-[42px]">
+                <a href="{{ route('eventPage.show', ['slug' => $event['slug']]) }}"
+                   class="inline-flex items-center gap-2 text-base md:text-lg font-medium text-gray-700 hover:text-[#4f6ef7] transition-colors">
+                    <span class="text-xl">→</span>
+                    <span>Detail</span>
+                </a>
+            </div>
 
-                                    <a href="{{ route('eventPage.show', ['slug' => $event['slug']]) }}">
+            {{-- IMAGE --}}
+            <div class="lg:col-span-7 order-1 lg:order-2 overflow-hidden rounded-[24px]">
+                <img src="{{ asset('storage/' . $event['image']) }}" alt="{{ $event['title'] }}"
+                     class="w-full h-[400px] object-cover">
+            </div>
 
-                                        {{ $event['title'] }}
+        </div>
+    @endif
 
-                                    </a>
-
-                                </h2>
-
-                                <p class="mt-6 max-w-[650px] text-[18px] leading-10 text-[#161616]/90">
-
-                                    {{ \Illuminate\Support\Str::limit(strip_tags($event['desc'] ?: $event['description']), 220) }}
-
-                                </p>
-
-                                <a href="{{ route('eventPage.show', ['slug' => $event['slug']]) }}"
-                                    class="group mt-8 inline-flex items-center gap-3 text-[22px] font-medium text-black transition hover:text-[#5c85ff]">
-
-                                    <span class="text-[28px] transition group-hover:translate-x-1">
-                                        →
-                                    </span>
-
-                                    <span>Detail</span>
-
-                                </a>
-
-                            </div>
-
-                        </article>
-
-                    @empty
-
-                        <div
-                            class="rounded-[24px] border border-dashed border-gray-300 bg-white px-6 py-20 text-center text-gray-500">
-                            No events available yet.
-                        </div>
-                    @endforelse
-
-                </div>
+@empty
+    <div class="text-center py-20">
+        No events available yet.
+    </div>
+@endforelse
 
             </div>
 
-        </section>
-
-        {{-- Footer --}}
-        <footer class="bg-black py-5">
-            <p class="text-center text-[12px] tracking-[0.2em] text-white">
-                Copyright 2024 SUNHOUR GROUP, All Rights Reserved
-            </p>
-        </footer>
+        </div>
 
     </div>
+
+    {{-- FOOTER --}}
+    <footer class="bg-black py-8">
+
+        <p class="text-center text-white text-sm tracking-wide">
+            Copyright © {{ date('Y') }} SUNHOUR GROUP. All Rights Reserved
+        </p>
+
+    </footer>
 @endsection
